@@ -63,7 +63,7 @@ label {
 }
 
 .first-name.mestool::before {
-    @include before('Please provide a valid First name.', 240px);
+    @include before('Please provide a valid Login', 200px);
 }
 
 
@@ -80,7 +80,7 @@ label {
 }
 
 .email.mestool::before {
-    @include before('Please provide a valid Email address.', 260px);
+    @include before('Please provide a valid Email address', 260px);
 }
 
 
@@ -98,5 +98,5 @@ label {
 }
 
 .password.mestool::before {
-    @include before('Please provide a valid Password.', 230px);
+    @include before('Please provide a valid Password', 230px);
 }

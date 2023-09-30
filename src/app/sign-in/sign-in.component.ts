@@ -22,7 +22,7 @@ export class SignInComponent {
   public eOutColor = 'rgb(159,198,242)';
   public pVal = '';
   public eVal = '';
-  public userId: number = -1;
+  // public userId: number = -1;
   public email!: string;
   public password!: string;
 
@@ -69,11 +69,15 @@ export class SignInComponent {
   /*---------------------------------------------------------------pass user */
 
   logIn(email: string, password: string): void {
-    if (!this.services.passUser(email, password)) alert('Такого користувача не існує !!!')
-    else {
-      this.resForm();
-      this.clBut.nativeElement.click();
-    }
+    this.services.getUser().subscribe(data => {
+      if (!this.services.passUser(data, email, password)) alert('Такого користувача не існує !!!')
+      else {
+        this.resForm();
+        this.clBut.nativeElement.click();
+      }
+
+    })
+
   }
 
   /*-------------------------------------------------------------------password */

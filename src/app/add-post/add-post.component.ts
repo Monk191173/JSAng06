@@ -18,33 +18,38 @@ export class AddPostComponent implements AfterContentChecked {
   constructor(public ServUser: BlogService) { }
 
   ngAfterContentChecked(): void {
+    let mes;
     if (this.ServUser.emode) {
-      this.title = this.ServUser.getMesforEdit().title;
-      this.message = this.ServUser.getMesforEdit().message;
-      this.postName = 'Edit Post';
-      this.postWinName = 'Editing post...'
-      this.ServUser.emode = false;
-      this.e_mode = true;
+      this.ServUser.getMess().subscribe(data => {
+        mes = this.ServUser.getMesforEdit(data);
+        this.title = mes.title;
+        this.message = mes.message;
+        this.postName = 'Edit Post';
+        this.postWinName = 'Editing post...'
+        this.ServUser.emode = false;
+        this.e_mode = true;
+      })
     }
   }
 
-
   AddPost(tit: string, mess: string): void {
-    if (!tit || !mess) alert('Заповніть всі поля !!')
+    if (!tit || !mess || tit.trim()=='' || mess.trim()=='') alert('Заповніть всі поля !!')
     else {
       if (this.e_mode) {
-        this.ServUser.editMess(this.ServUser.curMessID, tit, mess);
+        this.ServUser.saveEditMess(this.ServUser.curMessID, tit, mess).subscribe();
         this.e_mode = false;
         this.postName = 'Post';
         this.postWinName = 'Add Post';
+        this.ServUser.mesProc = true;
       }
-      else { this.ServUser.addMess(this.title, this.message); }
+      else { this.ServUser.addMess(this.title, this.message).subscribe(() => this.ServUser.mesProc = true); }
 
       this.title = '';
       this.message = '';
       this.clBut.nativeElement.click();
     }
   }
+
   closeModal(): void {
     this.e_mode = false;
     this.postName = 'Post';

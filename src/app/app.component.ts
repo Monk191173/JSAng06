@@ -1,6 +1,5 @@
 import { AfterContentChecked, Component } from '@angular/core';
 import { BlogService } from './blog.service';
-import { IcurUser } from './shared/interfaces/faces';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +9,18 @@ import { IcurUser } from './shared/interfaces/faces';
 export class AppComponent implements AfterContentChecked {
   title = 'blog';
   public logined!: boolean;
-  public curUserID!: number;
-  public masUsers!: IcurUser[];
+  public curLogin = '';
   constructor(private ServUser: BlogService) { }
 
+
   ngAfterContentChecked(): void {
-    this.logined = this.ServUser.getLog();
-    this.curUserID = this.ServUser.curUserID;
-    this.masUsers = this.ServUser.masUsers;
+    this.logined = this.ServUser.logined;
+    this.curLogin = this.ServUser.curUserLogin;
   }
+
   logOut(): void {
     this.ServUser.logined = false;
     this.ServUser.curUserID = -1;
+    this.ServUser.curUserLogin = '';
   }
 }

@@ -71,12 +71,16 @@ export class SignUpComponent {
 
 
   /*---------------------------------------------------------------add user */
-  addUser(): void {
-    if (this.services.addUser(this.fvalue, this.pVal, this.eVal)) alert('Такий користувач вже існує (login або/і email...)')
-    else {
-      this.resForm();
-      this.clBut.nativeElement.click();
-    }
+  addUser() {
+    this.services.getUser().subscribe(data => {
+      if (this.services.presUser(data, this.fvalue, this.eVal)) alert('Такий користувач вже існує (login або/і email...)')
+      else {
+        this.services.addUser(this.fvalue, this.pVal, this.eVal);
+        this.resForm();
+        this.clBut.nativeElement.click();
+      }
+    })
+
   }
 
   /*-------------------------------------------------------------------------Login */
